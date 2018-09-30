@@ -1,0 +1,19 @@
+# Intellij
+.idea/
+*.iml
+
+# Mac
+.DS_Store
+
+# Python
+venv
+requirements.txt
+
+# Airflow
+airflow_home
+
+# Maven
+target
+
+# Mac
+.DS_Store
