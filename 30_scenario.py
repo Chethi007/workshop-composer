@@ -4,7 +4,7 @@ import csv
 
 from airflow import DAG
 from airflow.contrib.operators.file_to_gcs import FileToGoogleCloudStorageOperator
-from airflow.contrib.operators.dataflow_operator import DataflowTemplateOperator
+from airflow.contrib.operators.dataflow_operator import DataFlowPythonOperator
 from airflow.contrib.operators.gcs_to_bq import GoogleCloudStorageToBigQueryOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.hooks.mysql_hook import MySqlHook
@@ -51,15 +51,17 @@ with DAG(dag_id='30_scenario',
         mime_type='text/x-python-script'
     )
 
-    dataflow_wordcount = DataflowTemplateOperator(
-        task_id='dataflow_wordcount',
-        template='gs://{{ get_composer_gcs_bucket() }}/data/dataflow/WordCount',
-        parameters={
-            'inputFile': 'gs://{{ get_composer_gcs_bucket() }}/data/30_scenario/{{ execution_date }}/30_scenario.py',
+    dataflow_wordcount = DataFlowPythonOperator(
+        task_id='dataflow-wordcount',
+        py_file='/home/airflow/gcs/dags/dataflow_wordcount.py',
+        options={
+            'input': 'gs://{{ get_composer_gcs_bucket() }}/data/30_scenario/{{ execution_date }}/30_scenario.py',
             'output': 'gs://{{ get_composer_gcs_bucket() }}/data/30_scenario/{{ execution_date }}/wordcount.csv'
         },
         dataflow_default_options={
-            'project': 'sfeir-innovation'
+            'project': 'sfeir-innovation',
+            "staging_location": "gs://{{ get_composer_gcs_bucket() }}/data/dataflow",
+            "temp_location": "gs://{{ get_composer_gcs_bucket() }}/data/dataflow"
         },
         dag=dag)
 
