@@ -16,8 +16,10 @@ default_args = {
     'retry_delay': timedelta(minutes=15)
 }
 
+
 def log():
     print('Variable value : {}'.format(Variable.get('my_variable')))
+
 
 with DAG(dag_id='05_static_variables',
          schedule_interval='*/10 * * * *',

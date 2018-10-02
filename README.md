@@ -1,5 +1,13 @@
 # Composer Workshop
 
+Welcome to Cloud Composr Workshop. In this workshop we will :
+1) Create a Cloud Composer workshop
+2) Execute some Basic DAGs on it
+3) Execute some specific cloud operators DAGs on it
+4) Execute some scenario DAGs on it
+
+For all the DAGs we'll write we'll set `catchup=None`, this will deactivate the backfill as it is not needed for this workshop.
+
 ## Creating Environnement
 
 Create a cloud composer environnement as described in [this guide](https://cloud.google.com/composer/docs/how-to/managing/creating).
@@ -12,14 +20,13 @@ Write a DAG using [BashOperator](https://airflow.apache.org/code.html#airflow.op
 
 Set `schedule_interval=None` for this DAG.
 
-Go to the Airflow UI and explore the details of the DAG.
-Once ready, activate the DAG by switching its status to `On` and then click on `Trigger Dag` and look at the Dag Run.
+Go to the Composer Airflow UI and explore the details of the DAG.
 
 An example can be found in file **01_hello_world_without_scheduling.py**.
 
 ### Hello world with scheduling
 
-From the previous DAG, modify the `schedule_interval` property in order to have the DAG executed periodically (every 2 minutes for example).
+From the previous DAG, modify the `schedule_interval` property in order to have the DAG executed periodically (every 1 minutes for example).
 Modify the command executed by the `BashOperator Dag` to print the execution date (look at the [available variables](https://airflow.apache.org/code.html#default-variables)).
 
 An interesting thing to notice is the difference between the time **at which** the task is executed and the time **for which** it is executed. For example, which a 2mn periodicity a task executed **at** 10:20 is executed **for** the `{{ execution_date }}=10:18`.
@@ -150,26 +157,41 @@ An example can be found in file **24_kubernetes_php_pod.py**.
 
 
 ### Dataflow Operators
-Create a DAG that launches dataflow job.
+Create a DAG that launches a dataflow python job.
 
-`Hint` : use the `DataflowTemplateOperator`
+The wordcount pipeline is provided in file **dataflow_wordcount.py**
+
+`Hint` : use the `DataFlowPythonOperator`
 
 An example can be found in file **25_dataflow_wordcount.py**.
 
 ### MySQL Operators
 Create a DAG that exports a table from Mysql to Cloud Storage.
 
+#### Prerequisites
+1) Create a Cloud SQL Instance that is reachable from anywhere and execute the **26_schema.sql** on it
+2) Create a MySQL Connection with id `workshop_sql_conn_id` that will be used in the DAG
+
 `Hint` : use the `MySqlToGoogleCloudStorageOperator`
-`Hint` : Create a Cloud SQL Instance that is reachable from anywhere
-`Hint` : Create a MySQL Connection with id `workshop_sql_conn_id` and use it in the operator
 
 An example can be found in file **26_sql_operators.py**.
 
-### Scenario
+## Scenarios
+
+### Scenarios 1
 Create a DAG that :
 1) Uploads a file to cloud storage.
 2) Processes a wordcount dataflow pipeline on this file
-3) loads the result on cloud SQL and bigquery
+3) loads the result on Cloud SQL (with the schema **30_schema.sql**) and Bigquery
 
 `Hint` : Combine the operators seen before
 An example can be found in file **30_scenario.py**.
+
+### Scenarios 2
+Create a DAG that :
+1) Uploads an orders file(**31_order.json**) to cloud storage.
+2) Processes a dataflow pipeline on this file that transforms the data (use the pipeline **31_dataflow.py**)
+3) loads the result on Cloud SQL (use the schema **31_schema.sql**)
+
+`Hint` : Combine the operators seen before
+An example can be found in file **31_scenario.py**.
