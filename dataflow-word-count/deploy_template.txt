@@ -1,7 +1,0 @@
-mvn compile exec:java \
-	    -Dexec.mainClass=org.apache.beam.examples.WordCount \
-	    -Dexec.args="--gcpTempLocation=gs://europe-west1-workshop-compo-d76dfccf-bucket/data/dataflow \
-	    --tempLocation=gs://europe-west1-workshop-compo-d76dfccf-bucket/data/dataflow \
-	    --templateLocation=gs://europe-west1-workshop-compo-d76dfccf-bucket/data/dataflow/WordCount \
-	    --workerMachineType=n1-standard-2 \
-	    --zone=europe-west1-b --runner=DataflowRunner" -Pdataflow-runner
