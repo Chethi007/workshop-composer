@@ -34,7 +34,7 @@ with DAG(dag_id='25_dataflow_wordcount',
             'output': 'gs://{{ get_composer_gcs_bucket() }}/data/25_dataflow_wordcount/{{ execution_date }}/output'
         },
         dataflow_default_options={
-            'project': 'sfeir-innovation',
+            'project': 'YOUR-PROJECT-HERE',
             "staging_location": "gs://{{ get_composer_gcs_bucket() }}/data/dataflow",
             "temp_location": "gs://{{ get_composer_gcs_bucket() }}/data/dataflow"
         },

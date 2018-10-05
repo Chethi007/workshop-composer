@@ -6,9 +6,11 @@ from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.subdag_operator import SubDagOperator
 
+yesterday = datetime.combine(datetime.today() - timedelta(1),datetime.min.time())
+
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2018, 10, 8),
+    'start_date': yesterday,
     'depends_on_past': False,
     'email': ['your_mail@airflow.com'],
     'email_on_failure': False,

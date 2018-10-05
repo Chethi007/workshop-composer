@@ -4,9 +4,11 @@ from airflow import DAG
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
+yesterday = datetime.combine(datetime.today() - timedelta(1),datetime.min.time())
+
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2018, 10, 8),
+    'start_date': yesterday,
     'depends_on_past': False,
     'email': ['your_mail@airflow.com'],
     'email_on_failure': False,

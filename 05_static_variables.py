@@ -5,9 +5,11 @@ from airflow.models import Variable
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.python_operator import PythonOperator
 
+yesterday = datetime.combine(datetime.today() - timedelta(1),datetime.min.time())
+
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2018, 10, 8),
+    'start_date': yesterday,
     'depends_on_past': False,
     'email': ['your_mail@airflow.com'],
     'email_on_failure': False,
@@ -17,7 +19,7 @@ default_args = {
 }
 
 
-def log():
+def log(**kwargs):
     print('Variable value : {}'.format(Variable.get('my_variable')))
 
 

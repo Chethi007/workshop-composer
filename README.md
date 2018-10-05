@@ -20,6 +20,8 @@ Write a DAG using [BashOperator](https://airflow.apache.org/code.html#airflow.op
 
 Set `schedule_interval=None` for this DAG.
 
+Push your file into the DAG bucket of your environnement.
+
 Go to the Composer Airflow UI and explore the details of the DAG.
 
 An example can be found in file **01_hello_world_without_scheduling.py**.
@@ -169,8 +171,9 @@ An example can be found in file **25_dataflow_wordcount.py**.
 Create a DAG that exports a table from Mysql to Cloud Storage.
 
 #### Prerequisites
-1) Create a Cloud SQL Instance that is reachable from anywhere and execute the **26_schema.sql** on it
-2) Create a MySQL Connection with id `workshop_sql_conn_id` that will be used in the DAG
+1) Create a Cloud SQL Instance that is reachable from anywhere
+2) Create a schema on it and execute the **26_schema.sql**
+3) Create a MySQL Connection with id `workshop_sql_conn_id` that points to your Cloud SQL instance. This connexion will be used in the DAG.
 
 `Hint` : use the `MySqlToGoogleCloudStorageOperator`
 
@@ -183,6 +186,10 @@ Create a DAG that :
 1) Uploads a file to cloud storage.
 2) Processes a wordcount dataflow pipeline on this file
 3) loads the result on Cloud SQL (with the schema **30_schema.sql**) and Bigquery
+
+#### Prerequisites
+Create a Bigquery Dataset that will hold your data
+Create Cloud SQL table that will hold your data
 
 `Hint` : Combine the operators seen before
 An example can be found in file **30_scenario.py**.

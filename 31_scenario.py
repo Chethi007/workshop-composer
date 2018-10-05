@@ -58,7 +58,7 @@ with DAG(dag_id='31_scenario',
             'output': 'gs://{{ get_composer_gcs_bucket() }}/data/31_scenario/{{ execution_date }}/order.csv'
         },
         dataflow_default_options={
-            'project': 'sfeir-innovation',
+            'project': 'YOUR-PROJECT-HERE',
             "staging_location": "gs://{{ get_composer_gcs_bucket() }}/data/dataflow",
             "temp_location": "gs://{{ get_composer_gcs_bucket() }}/data/dataflow"
         },
